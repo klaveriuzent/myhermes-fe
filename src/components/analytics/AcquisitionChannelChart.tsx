@@ -25,7 +25,7 @@ export default function AcquisitionChannelChart() {
     },
   ];
   const options: ApexOptions = {
-    colors: ["#2a31d8", "#465fff", "#7592ff", "#c2d6ff"],
+    colors: ["#2a31d8", "#171717", "#7592ff", "#c2d6ff"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "bar",

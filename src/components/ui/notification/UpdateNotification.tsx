@@ -14,7 +14,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
   onUpdateClick,
 }) => {
   return (
-    <div className="w-full max-w-[607px] rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-[#1E2634]">
+    <div className="w-full max-w-[607px] rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-[#14231c]">
       <div className="flex items-start gap-3">
         {/* Icon */}
         <div className="text-brand-500">

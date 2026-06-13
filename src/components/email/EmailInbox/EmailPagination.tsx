@@ -1,6 +1,6 @@
 export default function EmailPagination() {
   return (
-    <div className="sticky bottom-0 flex items-center rounded-b-2xl justify-between border-t border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-[#171f2f]">
+    <div className="sticky bottom-0 flex items-center rounded-b-2xl justify-between border-t border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-[#0d1b14]">
       <p className="text-sm text-gray-500 dark:text-gray-400">
         Showing 1 of 159
       </p>

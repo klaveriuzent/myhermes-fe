@@ -6,8 +6,8 @@ export default function SignIn() {
   return (
     <>
       <PageMeta
-        title="React.js SignIn Dashboard | MyHermes - Next.js Admin Dashboard Template"
-        description="This is React.js SignIn Tables Dashboard page for MyHermes - React.js Tailwind CSS Admin Dashboard Template"
+        title="Hermes AI | Login"
+        description="Login to manage Hermes AI agents and workflows."
       />
       <AuthLayout>
         <SignInForm />

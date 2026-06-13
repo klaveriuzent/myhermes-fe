@@ -4,7 +4,7 @@ import ChartTab from "../common/ChartTab";
 
 export default function AnalyticsBarChart() {
   const options: ApexOptions = {
-    colors: ["#465fff"],
+    colors: ["#171717"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "bar",

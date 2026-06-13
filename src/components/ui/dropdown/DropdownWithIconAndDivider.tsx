@@ -40,7 +40,7 @@ export default function DropdownWithIconAndDivider() {
       </button>
 
       <Dropdown
-        className="absolute left-0 top-full z-40 mt-2 w-full min-w-[260px] rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-[#1E2635]"
+        className="absolute left-0 top-full z-40 mt-2 w-full min-w-[260px] rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-[#14231c]"
         isOpen={isOpen}
         onClose={closeDropdown}
       >
@@ -92,7 +92,7 @@ export default function DropdownWithIconAndDivider() {
             </DropdownItem>
           </li>
           <li>
-            <span className="my-1.5 block h-px w-full bg-gray-200 dark:bg-[#353C49]"></span>
+            <span className="my-1.5 block h-px w-full bg-gray-200 dark:bg-[#294537]"></span>
           </li>
           <li>
             <DropdownItem
@@ -162,7 +162,7 @@ export default function DropdownWithIconAndDivider() {
             </DropdownItem>
           </li>
           <li>
-            <span className="my-1.5 block h-px w-full bg-gray-200 dark:bg-[#353C49]"></span>
+            <span className="my-1.5 block h-px w-full bg-gray-200 dark:bg-[#294537]"></span>
           </li>
           <li>
             <DropdownItem

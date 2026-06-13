@@ -62,7 +62,7 @@ const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`flex items-center justify-between gap-3 w-full sm:max-w-[340px] rounded-md border-b-4 p-3 shadow-theme-sm dark:bg-[#1E2634] ${borderColor}`}
+      className={`flex items-center justify-between gap-3 w-full sm:max-w-[340px] rounded-md border-b-4 p-3 shadow-theme-sm dark:bg-[#14231c] ${borderColor}`}
     >
       <div className="flex items-center gap-4">
         {/* Icon */}

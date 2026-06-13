@@ -12,7 +12,7 @@ export default function PopoverWithLink() {
               position="top"
               trigger={<Button size="sm"> Popover on Top</Button>}
             >
-              <div className="relative rounded-t-xl border-b border-gray-200 bg-gray-100 px-5 py-3 dark:border-white/[0.03] dark:bg-[#252D3A]">
+              <div className="relative rounded-t-xl border-b border-gray-200 bg-gray-100 px-5 py-3 dark:border-white/[0.03] dark:bg-[#1b3025]">
                 <h3 className="text-base font-semibold text-gray-800 dark:text-white/90">
                   Top Popover
                 </h3>
@@ -51,7 +51,7 @@ export default function PopoverWithLink() {
               position="bottom"
               trigger={<Button size="sm"> Popover on Bottom</Button>}
             >
-              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#252D3A]">
+              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#1b3025]">
                 <h3 className="text-base font-semibold text-gray-800 dark:text-white/90">
                   Top Popover
                 </h3>
@@ -90,7 +90,7 @@ export default function PopoverWithLink() {
               position="right"
               trigger={<Button size="sm"> Popover on Bottom</Button>}
             >
-              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#252D3A]">
+              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#1b3025]">
                 <h3 className="text-base font-semibold text-gray-800 dark:text-white/90">
                   Top Popover
                 </h3>
@@ -129,7 +129,7 @@ export default function PopoverWithLink() {
               position="left"
               trigger={<Button size="sm"> Popover on Bottom</Button>}
             >
-              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#252D3A]">
+              <div className="rounded-t-xl border-b relative  border-gray-200  bg-gray-200 px-5 py-3 dark:border-white/[0.03] dark:bg-[#1b3025]">
                 <h3 className="text-base font-semibold text-gray-800 dark:text-white/90">
                   Top Popover
                 </h3>

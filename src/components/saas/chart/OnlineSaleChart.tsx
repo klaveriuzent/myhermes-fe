@@ -8,7 +8,7 @@ export default function OnlineSaleChart() {
       position: "top",
       horizontalAlign: "left",
     },
-    colors: ["#465FFF", "#9CB9FF"],
+    colors: ["#171717", "#F59E0B"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,

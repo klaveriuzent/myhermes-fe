@@ -23,7 +23,7 @@ const CookieConsent: React.FC<CookieConsentProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="relative w-full max-w-[577px] rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-[#1E2634]">
+    <div className="relative w-full max-w-[577px] rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-[#14231c]">
       {/* Close Button */}
       <button
         className="absolute text-gray-400 right-3 top-3 hover:text-gray-800 dark:hover:text-white/90"
