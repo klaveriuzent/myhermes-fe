@@ -1,0 +1,64 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Dependencies & Build
+        run: |
+          npm ci
+          npm run build
+
+          if [ -d "dist" ]; then
+            tar -czf deploy.tar.gz dist
+          elif [ -d "build" ]; then
+            tar -czf deploy.tar.gz build
+          else
+            echo "Build folder tidak ditemukan"
+            exit 1
+          fi
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Upload ke Server
+        run: |
+          scp deploy.tar.gz jefry@${{ secrets.SSH_HOST }}:/var/www/myhermes-fe/
+
+      - name: Extract di Server
+        run: |
+          ssh jefry@${{ secrets.SSH_HOST }} "
+          cd /var/www/myhermes-fe &&
+          rm -rf assets images index.html dist build favicon.png &&
+          tar -xzf deploy.tar.gz &&
+          if [ -d dist ]; then
+            mv dist/* . && rm -rf dist
+          elif [ -d build ]; then
+            mv build/* . && rm -rf build
+          fi
+          rm deploy.tar.gz
+          "
