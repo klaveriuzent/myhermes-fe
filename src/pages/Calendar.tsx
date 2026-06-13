@@ -1,9 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { EventInput, DateSelectArg, EventClickArg } from "@fullcalendar/core";
+import {
+  EventInput,
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+} from "@fullcalendar/core";
 import { Modal } from "../components/ui/modal";
 import { useModal } from "../hooks/useModal";
 import PageMeta from "../components/common/PageMeta";
@@ -14,6 +19,28 @@ interface CalendarEvent extends EventInput {
   };
 }
 
+const createInitialEvents = (): CalendarEvent[] => [
+  {
+    id: "1",
+    title: "Event Conf.",
+    start: new Date().toISOString().split("T")[0],
+    extendedProps: { calendar: "Danger" },
+  },
+  {
+    id: "2",
+    title: "Meeting",
+    start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+    extendedProps: { calendar: "Success" },
+  },
+  {
+    id: "3",
+    title: "Workshop",
+    start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
+    end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
+    extendedProps: { calendar: "Primary" },
+  },
+];
+
 const Calendar: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null
@@ -22,8 +49,9 @@ const Calendar: React.FC = () => {
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [eventLevel, setEventLevel] = useState("");
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>(createInitialEvents);
   const calendarRef = useRef<FullCalendar>(null);
+  const nextEventId = useRef(4);
   const { isOpen, openModal, closeModal } = useModal();
 
   const calendarsEvents = {
@@ -32,31 +60,6 @@ const Calendar: React.FC = () => {
     Primary: "primary",
     Warning: "warning",
   };
-
-  useEffect(() => {
-    // Initialize with some events
-    setEvents([
-      {
-        id: "1",
-        title: "Event Conf.",
-        start: new Date().toISOString().split("T")[0],
-        extendedProps: { calendar: "Danger" },
-      },
-      {
-        id: "2",
-        title: "Meeting",
-        start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Success" },
-      },
-      {
-        id: "3",
-        title: "Workshop",
-        start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-        end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Primary" },
-      },
-    ]);
-  }, []);
 
   const handleDateSelect = (selectInfo: DateSelectArg) => {
     resetModalFields();
@@ -94,7 +97,7 @@ const Calendar: React.FC = () => {
     } else {
       // Add new event
       const newEvent: CalendarEvent = {
-        id: Date.now().toString(),
+        id: String(nextEventId.current++),
         title: eventTitle,
         start: eventStartDate,
         end: eventEndDate,
@@ -270,7 +273,7 @@ const Calendar: React.FC = () => {
   );
 };
 
-const renderEventContent = (eventInfo: any) => {
+const renderEventContent = (eventInfo: EventContentArg) => {
   const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`;
   return (
     <div

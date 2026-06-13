@@ -10,6 +10,8 @@ interface TaskItemProps {
   changeTaskStatus: (taskId: string, newStatus: string) => void;
 }
 
+type DragTask = Task & { index: number };
+
 const TaskItem: React.FC<TaskItemProps> = ({
   task,
   index,
@@ -19,7 +21,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    Task,
+    DragTask,
     DropResult,
     { handlerId: string | symbol | null }
   >({
@@ -30,7 +32,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       };
     },
     drop: () => ({ name: task.status }),
-    hover(item: any, monitor) {
+    hover(item, monitor) {
       if (!ref.current) {
         return;
       }
@@ -61,7 +63,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   });
 
   const [{ isDragging }, drag] = useDrag<
-    Task,
+    DragTask,
     DropResult,
     { isDragging: boolean }
   >({
@@ -81,11 +83,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
   });
 
   const opacity = isDragging ? 0.3 : 0.8;
-  drag(drop(ref));
+  const connectDragDrop = (node: HTMLDivElement | null) => {
+    ref.current = node;
+    drag(drop(node));
+  };
 
   return (
     <div
-      ref={ref}
+      ref={connectDragDrop}
       style={{ opacity }}
       className="relative p-5 bg-white border border-gray-200 task rounded-xl shadow-theme-sm dark:border-gray-800 dark:bg-white/5"
       data-handler-id={handlerId}
