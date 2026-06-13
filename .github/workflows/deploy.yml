@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
     steps:
       - name: Checkout Repo
@@ -41,17 +45,17 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa ~/.ssh/known_hosts
 
       - name: Upload ke Server
         run: |
-          scp deploy.tar.gz jefry@${{ secrets.SSH_HOST }}:/var/www/myhermes-fe/
+          scp deploy.tar.gz "$SSH_USER@$SSH_HOST":/var/www/myhermes-fe/
 
       - name: Extract di Server
         run: |
-          ssh jefry@${{ secrets.SSH_HOST }} "
+          ssh "$SSH_USER@$SSH_HOST" "
           cd /var/www/myhermes-fe &&
           rm -rf assets images index.html dist build favicon.png &&
           tar -xzf deploy.tar.gz &&
