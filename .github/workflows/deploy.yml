@@ -16,7 +16,6 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
     steps:
       - name: Checkout Repo
@@ -46,16 +45,15 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/id_rsa ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Upload ke Server
         run: |
-          scp deploy.tar.gz "$SSH_USER@$SSH_HOST":/var/www/myhermes-fe/
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR deploy.tar.gz "$SSH_USER@$SSH_HOST":/var/www/myhermes-fe/
 
       - name: Extract di Server
         run: |
-          ssh "$SSH_USER@$SSH_HOST" "
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR "$SSH_USER@$SSH_HOST" "
           cd /var/www/myhermes-fe &&
           rm -rf assets images index.html dist build favicon.png &&
           tar -xzf deploy.tar.gz &&
