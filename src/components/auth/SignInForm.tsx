@@ -1,6 +1,3 @@
-import { Link } from "react-router";
-import { ChevronLeftIcon } from "../../icons";
-
 function GoogleIcon() {
   return (
     <svg
@@ -34,23 +31,13 @@ function GoogleIcon() {
 export default function SignInForm() {
   return (
     <div className="relative flex min-h-screen flex-1 items-center justify-center">
-      <div className="absolute top-10 w-full max-w-md px-6 sm:px-0">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          <ChevronLeftIcon className="size-5" />
-          Back to dashboard
-        </Link>
-      </div>
-
       <div className="w-full max-w-md px-6 sm:px-0">
         <div className="mb-8">
           <h1 className="mb-3 text-title-sm font-semibold text-gray-900 dark:text-white/90 sm:text-title-md">
             Login
           </h1>
           <p className="text-sm leading-6 text-gray-500 dark:text-gray-400">
-            Login untuk mengelola agent, workflow, dan automasi Hermes AI.
+            Login untuk mengelola data yang disajikan oleh automasi Hermes AI.
           </p>
         </div>
 
