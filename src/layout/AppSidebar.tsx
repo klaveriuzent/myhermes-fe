@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router";
 
-import { GridIcon, HorizontaLDots } from "../icons";
+import { GridIcon, HorizontaLDots, ShootingStarIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
+import { enabledMenuItems } from "../config/menu";
 
 type NavItem = {
   name: string;
@@ -15,6 +16,13 @@ const navItems: NavItem[] = [
     name: "Dashboard",
     path: "/",
   },
+  ...enabledMenuItems
+    .filter((item) => item.path === "/scraped-jobs")
+    .map((item) => ({
+      icon: <ShootingStarIcon />,
+      name: item.name,
+      path: item.path,
+    })),
 ];
 
 const AppSidebar: React.FC = () => {
@@ -77,31 +85,16 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link to="/">
+        <Link to="/" aria-label="Hermes Agent">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <span className="flex flex-col text-[18px] font-bold leading-[17px] tracking-[0.18em]">
+              <span className="text-gray-900 dark:text-white">HERMES</span>
+              <span className="text-secondary-500">AGENT</span>
+            </span>
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <span className="flex size-10 items-center justify-center rounded-xl bg-gray-900 text-sm font-bold tracking-wider text-white shadow-theme-xs dark:bg-secondary-500 dark:text-gray-900">
+              HA
+            </span>
           )}
         </Link>
       </div>
