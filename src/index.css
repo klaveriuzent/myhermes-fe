@@ -225,7 +225,7 @@ layer(base);
 }
 
 @utility menu-item-active {
-  @apply bg-secondary-50 text-secondary-700 ring-1 ring-secondary-200 dark:bg-secondary-500/[0.10] dark:text-secondary-400 dark:ring-secondary-500/15;
+  @apply bg-gray-900 text-secondary-400 ring-1 ring-gray-900 shadow-theme-xs dark:bg-brand-400/15 dark:text-brand-300 dark:ring-brand-400/20;
 }
 
 @utility menu-item-inactive {
@@ -237,7 +237,7 @@ layer(base);
 }
 
 @utility menu-item-icon-active {
-  @apply text-secondary-500 dark:text-secondary-400;
+  @apply text-secondary-400 dark:text-brand-300;
 }
 
 @utility menu-item-icon-size {

@@ -87,14 +87,23 @@ const AppSidebar: React.FC = () => {
       >
         <Link to="/" aria-label="Hermes Agent">
           {isExpanded || isHovered || isMobileOpen ? (
-            <span className="flex flex-col text-[18px] font-bold leading-[17px] tracking-[0.18em]">
-              <span className="text-gray-900 dark:text-white">HERMES</span>
-              <span className="text-secondary-500">AGENT</span>
+            <span className="flex items-center gap-3">
+              <img
+                src="/images/logo/hermes.webp"
+                alt=""
+                className="size-10 rounded-xl border border-gray-200 object-cover shadow-theme-xs dark:border-white/10"
+              />
+              <span className="flex flex-col text-[18px] font-bold leading-[17px] tracking-[0.18em]">
+                <span className="text-gray-900 dark:text-white">HERMES</span>
+                <span className="text-secondary-500">AGENT</span>
+              </span>
             </span>
           ) : (
-            <span className="flex size-10 items-center justify-center rounded-xl bg-gray-900 text-sm font-bold tracking-wider text-white shadow-theme-xs dark:bg-secondary-500 dark:text-gray-900">
-              HA
-            </span>
+            <img
+              src="/images/logo/hermes.webp"
+              alt=""
+              className="size-10 rounded-xl border border-gray-200 object-cover shadow-theme-xs dark:border-white/10"
+            />
           )}
         </Link>
       </div>

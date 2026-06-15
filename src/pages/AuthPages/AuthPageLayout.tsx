@@ -16,26 +16,35 @@ export default function AuthLayout({
           <div className="relative flex items-center justify-center z-1">
             <GridShape />
             <div className="flex max-w-sm flex-col items-center px-8">
-              <Link to="/" className="mb-5 block">
+              <Link
+                to="/"
+                aria-label="Hermes Agent"
+                className="mb-6 flex items-center gap-4"
+              >
                 <img
-                  className="dark:hidden"
-                  width={231}
-                  height={48}
-                  src="/images/logo/logo.svg"
-                  alt="Hermes"
+                  src="/images/logo/hermes.webp"
+                  alt=""
+                  className="size-14 rounded-2xl border border-gray-200 object-cover shadow-theme-md dark:border-white/10"
                 />
-                <img
-                  className="hidden dark:block"
-                  width={231}
-                  height={48}
-                  src="/images/logo/auth-logo.svg"
-                  alt="Hermes"
-                />
+                <span className="flex flex-col text-[26px] font-bold leading-[24px] tracking-[0.18em]">
+                  <span className="text-gray-900 dark:text-white">HERMES</span>
+                  <span className="text-secondary-500">AGENT</span>
+                </span>
               </Link>
               <p className="text-center text-gray-600 dark:text-white/60">
-                Hermes AI membantu agent bekerja, mengambil keputusan, dan
-                menjalankan automasi dalam satu console.
+                Akses terbatas untuk memantau agent dan meninjau hasil
+                automasi.
               </p>
+              <div className="mt-7 flex items-center gap-2 text-theme-xs font-medium uppercase tracking-[0.18em] text-gray-400 dark:text-white/30">
+                <span className="h-px w-6 bg-gray-300 dark:bg-white/15" />
+                <span>
+                  Powered by{" "}
+                  <span className="text-secondary-600 dark:text-secondary-400">
+                    Algoritmix
+                  </span>
+                </span>
+                <span className="h-px w-6 bg-gray-300 dark:bg-white/15" />
+              </div>
             </div>
           </div>
         </div>
