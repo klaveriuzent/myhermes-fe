@@ -170,6 +170,13 @@ function parseTimestamp(timestamp?: string): string {
   return timeAgo(new Date(timestamp));
 }
 
+function truncateText(value: string, maxLength: number): string {
+  if (value.length <= maxLength) {
+    return value;
+  }
+  return `${value.slice(0, maxLength).trimEnd()}...`;
+}
+
 function normalizeMatchCategory(value: string): MatchCategory {
   if (value === "High Match" || value === "Low Match") {
     return value;
@@ -737,7 +744,7 @@ export default function ScrapedJobs() {
                         </span>
                         <span className="min-w-0 flex-1 overflow-hidden">
                           <span className="block truncate font-medium text-gray-800 dark:text-white/90">
-                            {job.title}
+                            {truncateText(job.title, 20)}
                           </span>
                           <span className="mt-1 flex min-w-0 items-center gap-2 overflow-hidden text-theme-xs text-gray-500 dark:text-gray-400">
                             <span className="min-w-0 max-w-[170px] truncate">
@@ -746,7 +753,7 @@ export default function ScrapedJobs() {
                                 : "Perusahaan tidak diketahui"}
                             </span>
                             <span className="size-1 shrink-0 rounded-full bg-gray-300 dark:bg-gray-600" />
-                            <span className="min-w-0 flex-1 truncate">
+                            <span className="min-w-0 max-w-[220px] truncate">
                               {job.location !== "Unknown"
                                 ? job.location
                                 : "Lokasi tidak diketahui"}
