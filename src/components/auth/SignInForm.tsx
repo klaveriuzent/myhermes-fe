@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+import { buildSsoStartUrl, getLastAuthUser } from "../../features/auth/api";
+
 function GoogleIcon() {
   return (
     <svg
@@ -29,6 +32,12 @@ function GoogleIcon() {
 }
 
 export default function SignInForm() {
+  const lastUser = getLastAuthUser();
+
+  const handleLogin = (mode?: "switch") => {
+    window.location.href = buildSsoStartUrl(mode);
+  };
+
   return (
     <div className="relative flex min-h-screen flex-1 items-center justify-center">
       <div className="w-full max-w-md px-6 sm:px-0">
@@ -41,14 +50,57 @@ export default function SignInForm() {
           </p>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-brand-300 bg-gray-50 px-6 py-3 text-sm font-medium text-gray-800 transition-colors hover:border-secondary-500 hover:bg-brand-50 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
-        >
-          <GoogleIcon />
-          Login dengan Google
-        </button>
+        {lastUser ? (
+          <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-theme-xs dark:border-gray-800 dark:bg-white/[0.03]">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-gray-800 dark:text-white/90">
+                {lastUser.name}
+              </p>
+              <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                {lastUser.email}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleLogin()}
+              className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-600"
+            >
+              Lanjut sebagai {lastUser.name || lastUser.email}
+            </button>
+            <div className="my-4 flex items-center gap-3">
+              <span className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+              <span className="text-xs text-gray-400">atau</span>
+              <span className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+            </div>
+            <GoogleLoginButton onClick={() => handleLogin("switch")}>
+              Gunakan akun Google lain
+            </GoogleLoginButton>
+          </div>
+        ) : (
+          <GoogleLoginButton onClick={() => handleLogin()}>
+            Login dengan Google
+          </GoogleLoginButton>
+        )}
       </div>
     </div>
+  );
+}
+
+function GoogleLoginButton({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-brand-300 bg-gray-50 px-6 py-3 text-sm font-medium text-gray-800 transition-colors hover:border-secondary-500 hover:bg-brand-50 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
+    >
+      <GoogleIcon />
+      {children}
+    </button>
   );
 }

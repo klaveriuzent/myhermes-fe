@@ -1,53 +1,107 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { useTheme } from "../../context/ThemeContext";
+import {
+  fetchCurrentUser,
+  logout,
+  type AuthUser,
+} from "../../features/auth/api";
 import AvatarText from "../ui/avatar/AvatarText";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
-const displayName = "Alex Morgan";
-const displayEmail = "alex.morgan@example.com";
-
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const displayName = user?.name?.trim() || user?.email || "Mode Lokal";
+  const accountStatus = user ? user.email : "Belum login";
 
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  async function handleLogout() {
+    try {
+      await logout();
+    } finally {
+      setUser(null);
+      closeDropdown();
+      navigate("/login");
+    }
+  }
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadUser() {
+      try {
+        const response = await fetchCurrentUser();
+        if (!cancelled) {
+          setUser(response.authenticated ? response.user ?? null : null);
+        }
+      } catch {
+        if (!cancelled) {
+          setUser(null);
+        }
+      }
+    }
+
+    loadUser();
+    window.addEventListener("focus", loadUser);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("focus", loadUser);
+    };
+  }, []);
 
   return (
     <div className="relative">
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="dropdown-toggle inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white py-1 pl-1 pr-2 text-gray-700 shadow-theme-xs dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
+        className={
+          user
+            ? "dropdown-toggle inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white py-1 pl-1 pr-2 text-gray-700 shadow-theme-xs dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
+            : "dropdown-toggle inline-flex h-9 items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-xs font-semibold text-gray-700 shadow-theme-xs dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
+        }
         aria-label={`Akun pengguna: ${displayName}`}
         aria-expanded={isOpen}
       >
-        <span className="hidden max-w-[140px] truncate pl-2 font-medium text-theme-sm sm:block">
-          {displayName}
-        </span>
-        <AvatarText name={displayName} className="h-8 w-8" />
-        <svg
-          className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          width="18"
-          height="20"
-          viewBox="0 0 18 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {user ? (
+          <>
+            <span className="hidden max-w-[140px] truncate pl-2 font-medium text-theme-sm sm:block">
+              {displayName}
+            </span>
+            <AvatarText name={displayName} className="h-8 w-8" />
+            <svg
+              className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+              width="18"
+              height="20"
+              viewBox="0 0 18 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </>
+        ) : (
+          <>
+            <span className="h-2 w-2 rounded-full bg-success-500" />
+            <span>Mode Lokal</span>
+          </>
+        )}
       </button>
 
       <Dropdown
@@ -61,10 +115,12 @@ export default function UserDropdown() {
               {displayName}
             </span>
             <span className="mt-0.5 block truncate text-theme-xs text-gray-500 dark:text-gray-400">
-              {displayEmail}
+              {accountStatus}
             </span>
           </div>
-          <AvatarText name={displayName} className="h-10 w-10 shrink-0" />
+          {user ? (
+            <AvatarText name={displayName} className="h-10 w-10 shrink-0" />
+          ) : null}
         </div>
 
         <ul className="flex flex-col gap-1 border-b border-gray-200 pb-3 pt-4 dark:border-gray-800">
@@ -104,21 +160,39 @@ export default function UserDropdown() {
           </li>
         </ul>
 
-        <Link
-          to="/login"
-          onClick={closeDropdown}
-          className="mt-3 flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
-        >
-          <svg
-            className="h-6 w-6 fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
+        {user ? (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-3 flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
           >
-            <path d="M15.1 19.247a.75.75 0 0 1-.75-.75v-4.252h-1.5v4.252a2.25 2.25 0 0 0 2.25 2.25h3.4a2.25 2.25 0 0 0 2.25-2.25V5.496a2.25 2.25 0 0 0-2.25-2.25h-3.4a2.25 2.25 0 0 0-2.25 2.25v4.249h1.5V5.496a.75.75 0 0 1 .75-.75h3.4a.75.75 0 0 1 .75.75v13.001a.75.75 0 0 1-.75.75h-3.4ZM3.25 11.998c0 .216.091.411.237.548l4.608 4.61a.75.75 0 1 0 1.06-1.061l-3.344-3.347H16a.75.75 0 0 0 0-1.5H5.815l3.341-3.342a.75.75 0 1 0-1.061-1.061l-4.572 4.575a.748.748 0 0 0-.273.578Z" />
-          </svg>
-          Keluar
-        </Link>
+            <svg
+              className="h-6 w-6 fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M15.1 19.247a.75.75 0 0 1-.75-.75v-4.252h-1.5v4.252a2.25 2.25 0 0 0 2.25 2.25h3.4a2.25 2.25 0 0 0 2.25-2.25V5.496a2.25 2.25 0 0 0-2.25-2.25h-3.4a2.25 2.25 0 0 0-2.25 2.25v4.249h1.5V5.496a.75.75 0 0 1 .75-.75h3.4a.75.75 0 0 1 .75.75v13.001a.75.75 0 0 1-.75.75h-3.4ZM3.25 11.998c0 .216.091.411.237.548l4.608 4.61a.75.75 0 1 0 1.06-1.061l-3.344-3.347H16a.75.75 0 0 0 0-1.5H5.815l3.341-3.342a.75.75 0 1 0-1.061-1.061l-4.572 4.575a.748.748 0 0 0-.273.578Z" />
+            </svg>
+            Keluar
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            onClick={closeDropdown}
+            className="mt-3 flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+          >
+            <svg
+              className="h-6 w-6 fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M15.1 19.247a.75.75 0 0 1-.75-.75v-4.252h-1.5v4.252a2.25 2.25 0 0 0 2.25 2.25h3.4a2.25 2.25 0 0 0 2.25-2.25V5.496a2.25 2.25 0 0 0-2.25-2.25h-3.4a2.25 2.25 0 0 0-2.25 2.25v4.249h1.5V5.496a.75.75 0 0 1 .75-.75h3.4a.75.75 0 0 1 .75.75v13.001a.75.75 0 0 1-.75.75h-3.4ZM3.25 11.998c0 .216.091.411.237.548l4.608 4.61a.75.75 0 1 0 1.06-1.061l-3.344-3.347H16a.75.75 0 0 0 0-1.5H5.815l3.341-3.342a.75.75 0 1 0-1.061-1.061l-4.572 4.575a.748.748 0 0 0-.273.578Z" />
+            </svg>
+            Masuk
+          </Link>
+        )}
       </Dropdown>
     </div>
   );
