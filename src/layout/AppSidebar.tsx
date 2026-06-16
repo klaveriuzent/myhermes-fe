@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router";
 
 import { GridIcon, HorizontaLDots, ShootingStarIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import { enabledMenuItems } from "../config/menu";
 
 type NavItem = {
   name: string;
@@ -16,13 +15,11 @@ const navItems: NavItem[] = [
     name: "Dashboard",
     path: "/",
   },
-  ...enabledMenuItems
-    .filter((item) => item.path === "/scraped-jobs")
-    .map((item) => ({
-      icon: <ShootingStarIcon />,
-      name: item.name,
-      path: item.path,
-    })),
+  {
+    icon: <ShootingStarIcon />,
+    name: "Scraped Jobs",
+    path: "/scraped-jobs",
+  },
 ];
 
 const AppSidebar: React.FC = () => {

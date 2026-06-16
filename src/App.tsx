@@ -5,7 +5,6 @@ import AuthCallbackPage from "./pages/AuthPages/AuthCallbackPage";
 import SignIn from "./pages/AuthPages/SignIn";
 import Ecommerce from "./pages/Dashboard/Ecommerce";
 import ScrapedJobs from "./pages/Jobs/ScrapedJobs";
-import { isPageEnabled } from "./config/menu";
 
 export default function App() {
   return (
@@ -14,9 +13,7 @@ export default function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route index path="/" element={<Ecommerce />} />
-          {isPageEnabled("/scraped-jobs") && (
-            <Route path="/scraped-jobs" element={<ScrapedJobs />} />
-          )}
+          <Route path="/scraped-jobs" element={<ScrapedJobs />} />
         </Route>
 
         <Route path="/login" element={<SignIn />} />
