@@ -212,6 +212,32 @@ function tabToQuery(tab: JobTab): string {
   return tab.toLowerCase();
 }
 
+function buildPaginationItems(currentPage: number, totalPages: number) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = new Set([1, totalPages, currentPage]);
+  for (let page = currentPage - 1; page <= currentPage + 1; page += 1) {
+    if (page > 1 && page < totalPages) {
+      pages.add(page);
+    }
+  }
+
+  const sortedPages = Array.from(pages).sort((a, b) => a - b);
+  const items: Array<number | "ellipsis"> = [];
+
+  sortedPages.forEach((page, index) => {
+    const previousPage = sortedPages[index - 1];
+    if (previousPage && page - previousPage > 1) {
+      items.push("ellipsis");
+    }
+    items.push(page);
+  });
+
+  return items;
+}
+
 async function parseError(response: Response, fallback: string) {
   try {
     const body = (await response.json()) as {
@@ -366,6 +392,7 @@ export default function ScrapedJobs() {
   const totalPages = Math.max(1, meta.total_pages || 1);
   const pageStart = jobs.length > 0 ? (meta.page - 1) * meta.limit + 1 : 0;
   const pageEnd = jobs.length > 0 ? pageStart + jobs.length - 1 : 0;
+  const paginationItems = buildPaginationItems(currentPage, totalPages);
 
   const statCards = [
     {
@@ -698,36 +725,36 @@ export default function ScrapedJobs() {
                         : ""
                     }`}
                   >
-                    <TableCell className="px-5 py-3">
+                    <TableCell className="w-[560px] max-w-[560px] px-5 py-3">
                       <button
                         onClick={() => setSelectedJobId(job.id)}
-                        className="flex min-h-[72px] min-w-72 items-center gap-3 text-left"
+                        className="flex min-h-[72px] w-full max-w-[520px] items-center gap-3 text-left"
                       >
                         <span
                           className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-theme-sm font-semibold ${getCompanyColor(job.id)}`}
                         >
                           {getInitials(job.company, job.title)}
                         </span>
-                        <span className="min-w-0">
+                        <span className="min-w-0 flex-1 overflow-hidden">
                           <span className="block truncate font-medium text-gray-800 dark:text-white/90">
                             {job.title}
                           </span>
-                          <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-theme-xs text-gray-500 dark:text-gray-400">
-                            <span>
+                          <span className="mt-1 flex min-w-0 items-center gap-2 overflow-hidden text-theme-xs text-gray-500 dark:text-gray-400">
+                            <span className="min-w-0 max-w-[170px] truncate">
                               {job.company && job.company !== "Unknown"
                                 ? job.company
                                 : "Perusahaan tidak diketahui"}
                             </span>
-                            <span className="size-1 rounded-full bg-gray-300 dark:bg-gray-600" />
-                            <span>
+                            <span className="size-1 shrink-0 rounded-full bg-gray-300 dark:bg-gray-600" />
+                            <span className="min-w-0 flex-1 truncate">
                               {job.location !== "Unknown"
                                 ? job.location
                                 : "Lokasi tidak diketahui"}
                             </span>
                             {job.remoteType !== "Unknown" && (
                               <>
-                                <span className="size-1 rounded-full bg-gray-300 dark:bg-gray-600" />
-                                <span>{job.remoteType}</span>
+                                <span className="size-1 shrink-0 rounded-full bg-gray-300 dark:bg-gray-600" />
+                                <span className="shrink-0 truncate">{job.remoteType}</span>
                               </>
                             )}
                           </span>
@@ -847,13 +874,13 @@ export default function ScrapedJobs() {
               </div>
             )}
           </div>
-          <div className="mt-auto flex flex-col gap-3 border-t border-gray-100 px-5 py-4 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-auto flex flex-col gap-3 border-t border-gray-100 px-5 py-4 dark:border-gray-800 lg:flex-row lg:items-center lg:justify-between">
             <span className="text-theme-xs text-gray-500 dark:text-gray-400">
               {jobs.length > 0
                 ? `Menampilkan ${pageStart}-${pageEnd} dari ${meta.total} lowongan`
                 : "Tidak ada lowongan"}
             </span>
-            <div className="flex items-center gap-1">
+            <div className="flex flex-wrap items-center gap-1">
               <button
                 type="button"
                 onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
@@ -871,21 +898,29 @@ export default function ScrapedJobs() {
                   />
                 </svg>
               </button>
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                (page) => (
+              {paginationItems.map((item, index) =>
+                item === "ellipsis" ? (
+                  <span
+                    key={`ellipsis-${index}`}
+                    className="flex size-8 items-center justify-center text-theme-xs font-medium text-gray-400"
+                    aria-hidden="true"
+                  >
+                    ...
+                  </span>
+                ) : (
                   <button
-                    key={page}
+                    key={item}
                     type="button"
-                    onClick={() => setCurrentPage(page)}
-                    aria-label={`Halaman ${page}`}
-                    aria-current={currentPage === page ? "page" : undefined}
+                    onClick={() => setCurrentPage(item)}
+                    aria-label={`Halaman ${item}`}
+                    aria-current={currentPage === item ? "page" : undefined}
                     className={`size-8 rounded-lg text-theme-xs font-medium transition ${
-                      currentPage === page
+                      currentPage === item
                         ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                         : "border border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-white/5"
                     }`}
                   >
-                    {page}
+                    {item}
                   </button>
                 ),
               )}
