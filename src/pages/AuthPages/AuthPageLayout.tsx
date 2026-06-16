@@ -39,9 +39,14 @@ export default function AuthLayout({
                 <span className="h-px w-6 bg-gray-300 dark:bg-white/15" />
                 <span>
                   Powered by{" "}
-                  <span className="text-secondary-600 dark:text-secondary-400">
+                  <a
+                    href="https://algoritmix.cloud/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-secondary-600 transition hover:text-secondary-700 dark:text-secondary-400 dark:hover:text-secondary-300"
+                  >
                     Algoritmix
-                  </span>
+                  </a>
                 </span>
                 <span className="h-px w-6 bg-gray-300 dark:bg-white/15" />
               </div>
