@@ -706,7 +706,15 @@ export default function ScrapedJobs() {
             </div>
           ) : null}
           <div className="max-w-full flex-1 overflow-x-auto">
-            <Table>
+            <Table className="table-fixed min-w-[900px]">
+              <colgroup>
+                <col className="w-[43%]" />
+                <col className="w-[13%]" />
+                <col className="w-[13%]" />
+                <col className="w-[12%]" />
+                <col className="w-[10%]" />
+                <col className="w-[9%]" />
+              </colgroup>
               <TableHeader className="border-b border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-white/[0.02]">
                 <TableRow>
                   {["Posisi", "Sumber & waktu", "AI match", "Kategori", "Tipe", ""].map(
@@ -714,7 +722,7 @@ export default function ScrapedJobs() {
                       <TableCell
                         key={heading || "action"}
                         isHeader
-                        className="px-5 py-3 text-start text-theme-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                        className="px-4 py-3 text-start text-theme-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
                       >
                         {heading}
                       </TableCell>
@@ -732,10 +740,10 @@ export default function ScrapedJobs() {
                         : ""
                     }`}
                   >
-                    <TableCell className="w-[560px] max-w-[560px] px-5 py-3">
+                    <TableCell className="px-4 py-3">
                       <button
                         onClick={() => setSelectedJobId(job.id)}
-                        className="flex min-h-[72px] w-full max-w-[520px] items-center gap-3 text-left"
+                        className="flex min-h-[72px] w-full min-w-0 items-center gap-3 text-left"
                       >
                         <span
                           className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-theme-sm font-semibold ${getCompanyColor(job.id)}`}
@@ -747,13 +755,13 @@ export default function ScrapedJobs() {
                             {truncateText(job.title, 20)}
                           </span>
                           <span className="mt-1 flex min-w-0 items-center gap-2 overflow-hidden text-theme-xs text-gray-500 dark:text-gray-400">
-                            <span className="min-w-0 max-w-[170px] truncate">
+                            <span className="min-w-0 max-w-[140px] truncate">
                               {job.company && job.company !== "Unknown"
                                 ? job.company
                                 : "Perusahaan tidak diketahui"}
                             </span>
                             <span className="size-1 shrink-0 rounded-full bg-gray-300 dark:bg-gray-600" />
-                            <span className="min-w-0 max-w-[220px] truncate">
+                            <span className="min-w-0 max-w-[160px] truncate">
                               {job.location !== "Unknown"
                                 ? job.location
                                 : "Lokasi tidak diketahui"}
@@ -788,7 +796,7 @@ export default function ScrapedJobs() {
                         </span>
                       </button>
                     </TableCell>
-                    <TableCell className="px-5 py-4">
+                    <TableCell className="px-4 py-4">
                       <p className="text-theme-sm text-gray-700 dark:text-gray-300">
                         {job.source}
                       </p>
@@ -796,7 +804,7 @@ export default function ScrapedJobs() {
                         Diambil {job.scrapedAt}
                       </p>
                     </TableCell>
-                    <TableCell className="px-5 py-4">
+                    <TableCell className="px-4 py-4">
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-gray-800 dark:text-white/90">
                           {job.matchScore}%
@@ -815,7 +823,7 @@ export default function ScrapedJobs() {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="px-5 py-4">
+                    <TableCell className="px-4 py-4">
                       <Badge
                         color={matchCategoryBadge[job.matchCategory].color}
                         size="sm"
@@ -823,12 +831,12 @@ export default function ScrapedJobs() {
                         {matchCategoryBadge[job.matchCategory].label}
                       </Badge>
                     </TableCell>
-                    <TableCell className="px-5 py-4">
+                    <TableCell className="px-4 py-4">
                       <span className="rounded-md bg-gray-100 px-2 py-0.5 text-theme-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-400">
                         {job.employmentType}
                       </span>
                     </TableCell>
-                    <TableCell className="px-5 py-4 text-right">
+                    <TableCell className="px-4 py-4 text-right">
                       <button
                         onClick={() => updateJobState(job, "shortlist")}
                         disabled={isMutating}
