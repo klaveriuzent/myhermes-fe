@@ -1,9 +1,11 @@
+import { useState } from "react";
 import PageMeta from "../../components/common/PageMeta";
 import { useJobsData, tabItems } from "../../hooks/useJobsData";
 import StatCards from "../../components/jobs/StatCards";
 import FilterBar from "../../components/jobs/FilterBar";
 import JobTable from "../../components/jobs/JobTable";
 import JobDetail from "../../components/jobs/JobDetail";
+import JobBottomSheet from "../../components/jobs/JobBottomSheet";
 import JobToast from "../../components/jobs/JobToast";
 
 export default function ScrapedJobs() {
@@ -37,6 +39,13 @@ export default function ScrapedJobs() {
     selectJob,
   } = useJobsData();
 
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  function handleSelectJob(id: number) {
+    selectJob(id);
+    setSheetOpen(true);
+  }
+
   return (
     <>
       <PageMeta
@@ -51,8 +60,7 @@ export default function ScrapedJobs() {
             Hasil scraping lowongan
           </h1>
           <p className="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
-            Review, kurasi, dan tindak lanjuti lowongan yang ditemukan oleh
-            agent.
+            Review, kurasi, dan tindak lanjuti lowongan yang ditemukan oleh agent.
           </p>
         </div>
       </div>
@@ -74,7 +82,7 @@ export default function ScrapedJobs() {
               role="tab"
               aria-selected={activeTab === tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex h-9 shrink-0 items-center rounded-lg px-4 text-theme-sm font-medium transition ${
+              className={`flex h-10 shrink-0 items-center rounded-lg px-4 text-theme-sm font-medium transition active:scale-[0.97] ${
                 activeTab === tab
                   ? "bg-gray-900 text-white shadow-theme-xs ring-1 ring-gray-900 dark:bg-brand-400/15 dark:text-brand-300 dark:ring-brand-400/20"
                   : "text-gray-500 hover:bg-white hover:text-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-200"
@@ -86,8 +94,8 @@ export default function ScrapedJobs() {
         </div>
       </div>
 
-      {/* Filter bar */}
-      <div className="mb-4">
+      {/* Sticky filter bar on mobile */}
+      <div className="sticky top-0 z-30 -mx-2 mb-4 bg-gray-50 px-2 pb-2 pt-2 dark:bg-gray-950 lg:static lg:mx-0 lg:bg-transparent lg:p-0">
         <FilterBar
           query={query}
           setQuery={setQuery}
@@ -102,7 +110,7 @@ export default function ScrapedJobs() {
 
       {/* Main grid */}
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        {/* Table */}
+        {/* Table / Card list */}
         <JobTable
           jobs={jobs}
           isLoading={isLoading}
@@ -115,12 +123,12 @@ export default function ScrapedJobs() {
           pageEnd={pageEnd}
           metaTotal={meta.total}
           paginationItems={paginationItems}
-          onSelectJob={selectJob}
+          onSelectJob={handleSelectJob}
           onToggleShortlist={(job) => updateJobState(job, "shortlist")}
           onPageChange={setCurrentPage}
         />
 
-        {/* Detail sidebar */}
+        {/* Desktop sidebar (>= xl) */}
         <JobDetail
           job={selectedJob}
           isLoading={isLoading}
@@ -133,6 +141,20 @@ export default function ScrapedJobs() {
           }
         />
       </div>
+
+      {/* Mobile bottom sheet (< lg) */}
+      <JobBottomSheet
+        job={isLoading ? null : selectedJob}
+        visible={!!selectedJob && !isLoading && sheetOpen}
+        isMutating={isMutating}
+        onClose={() => setSheetOpen(false)}
+        onShortlist={() =>
+          selectedJob && updateJobState(selectedJob, "shortlist")
+        }
+        onApplied={() =>
+          selectedJob && updateJobState(selectedJob, "applied")
+        }
+      />
 
       {/* Toast notification */}
       {toast && <JobToast toast={toast} onClear={clearToast} />}
