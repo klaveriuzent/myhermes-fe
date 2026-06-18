@@ -126,7 +126,7 @@ export default function JobRow({
           onClick={onToggleShortlist}
           disabled={isMutating}
           aria-label="Shortlist lowongan"
-          className={`rounded-xl border-2 p-2.5 disabled:cursor-not-allowed disabled:opacity-50 ${
+          className={`rounded-lg border p-2 disabled:cursor-not-allowed disabled:opacity-50 ${
             job.userState === "shortlist"
               ? "border-warning-200 bg-warning-50 text-warning-600"
               : "border-gray-200 text-gray-400 hover:text-warning-600 dark:border-gray-700"

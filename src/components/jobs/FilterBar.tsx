@@ -56,7 +56,7 @@ export default function FilterBar({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Cari posisi, perusahaan..."
-          className="h-11 w-full rounded-xl border border-gray-300 bg-transparent py-2.5 pl-10 pr-3 text-sm text-gray-800 outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:border-gray-700 dark:text-white/90 placeholder:text-gray-400"
+          className="h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2 pl-10 pr-3 text-theme-sm text-gray-800 outline-none focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:border-gray-700 dark:text-white/90"
         />
       </div>
 
@@ -84,7 +84,7 @@ export default function FilterBar({
           aria-label="Filter berdasarkan kategori"
           aria-haspopup="listbox"
           aria-expanded={isCategoryOpen}
-          className={`h-11 w-full rounded-xl border bg-white py-2.5 pl-9 pr-9 text-left text-sm font-medium shadow-theme-xs outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:bg-gray-900 sm:w-44 ${
+          className={`h-10 w-full rounded-lg border bg-white py-2 pl-9 pr-9 text-left text-theme-sm font-medium shadow-theme-xs outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:bg-gray-900 sm:w-44 ${
             category === "Semua kategori"
               ? "border-gray-300 text-gray-600 dark:border-gray-700 dark:text-gray-300"
               : "border-brand-200 bg-brand-25 text-gray-800 dark:border-brand-500/30 dark:bg-brand-500/[0.06] dark:text-white/90"
@@ -170,7 +170,7 @@ export default function FilterBar({
         type="button"
         onClick={onExport}
         disabled={jobsLength === 0}
-        className="h-11 rounded-xl border border-gray-300 bg-white px-5 text-sm font-medium text-gray-700 shadow-theme-xs transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-white/5"
+        className="h-10 rounded-lg border border-gray-300 bg-white px-4 text-theme-sm font-medium text-gray-700 shadow-theme-xs transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-white/5"
       >
         Export CSV
       </button>

@@ -32,11 +32,11 @@ export default function JobDetail({
   onShortlist,
   onApplied,
 }: JobDetailProps) {
-  if (isLoading && !job) return <div className="hidden xl:block"><DetailSkeleton /></div>;
+  if (isLoading && !job) return <DetailSkeleton />;
 
   if (!job) {
     return (
-      <aside className="hidden min-h-64 items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-white/60 p-6 text-center dark:border-gray-700 dark:bg-white/[0.02] xl:flex xl:sticky xl:top-24">
+      <aside className="flex min-h-64 items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-white/60 p-6 text-center dark:border-gray-700 dark:bg-white/[0.02] xl:sticky xl:top-24">
         <div>
           <p className="text-theme-sm font-medium text-gray-700 dark:text-gray-300">
             Detail lowongan belum tersedia
@@ -50,7 +50,7 @@ export default function JobDetail({
   }
 
   return (
-    <aside className="hidden h-fit rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-xs dark:border-gray-800 dark:bg-white/[0.03] xl:sticky xl:top-24 xl:block transition-opacity duration-200">
+    <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-5 shadow-theme-xs dark:border-gray-800 dark:bg-white/[0.03] xl:sticky xl:top-24 transition-opacity duration-200">
       {/* Header */}
       <div className="flex items-center gap-3">
         <span
