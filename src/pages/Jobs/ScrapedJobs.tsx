@@ -499,6 +499,7 @@ export default function ScrapedJobs() {
         title="Scraped Jobs | Hermes"
         description="Hasil scraping lowongan kerja oleh AI agent"
       />
+<<<<<<< HEAD
       <div className="mb-6">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -528,6 +529,65 @@ export default function ScrapedJobs() {
           </div>
         ))}
       </div>
+=======
+
+      {/* Header — responsive typography */}
+      <div className="mb-5 px-0">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          Hasil scraping lowongan
+        </h1>
+        <p className="mt-0.5 text-sm leading-relaxed text-gray-500 dark:text-gray-400 sm:text-base">
+          Review, kurasi, dan tindak lanjuti lowongan yang ditemukan oleh agent.
+        </p>
+      </div>
+
+      {/* Stat cards — compact mobile */}
+      <div className="mb-5">
+        <StatCards cards={statCards} />
+      </div>
+
+      {/* Tabs — full width, equal, 44px tall */}
+      <div className="mb-4">
+        <div
+          role="tablist"
+          aria-label="Kategori lowongan"
+          className="grid w-full grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1 shadow-inner dark:border-gray-800 dark:bg-gray-900/60"
+        >
+          {tabItems.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex min-h-11 items-center justify-center rounded-lg px-2 text-xs font-medium transition active:scale-[0.97] sm:text-sm ${
+                activeTab === tab
+                  ? "bg-gray-900 text-white shadow-theme-xs ring-1 ring-gray-900 dark:bg-brand-400/15 dark:text-brand-300 dark:ring-brand-400/20"
+                  : "text-gray-500 hover:bg-white hover:text-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-200"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Sticky filter bar on mobile */}
+      <div className="sticky top-0 z-30 mb-3 bg-gray-50 pb-2 pt-2 dark:bg-gray-950 lg:static lg:bg-transparent lg:p-0">
+        <FilterBar
+          query={query}
+          setQuery={setQuery}
+          category={category}
+          setCategory={setCategory}
+          isCategoryOpen={isCategoryOpen}
+          setIsCategoryOpen={setIsCategoryOpen}
+          jobsLength={jobs.length}
+          onExport={exportJobs}
+        />
+      </div>
+
+      {/* Main grid */}
+>>>>>>> origin/agent
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <section className="flex min-h-[680px] min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="border-b border-gray-100 p-4 dark:border-gray-800 sm:p-5">
