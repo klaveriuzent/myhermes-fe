@@ -18,8 +18,8 @@ interface JobBottomSheetProps {
 function DetailItem({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-theme-xs text-gray-400">{label}</p>
-      <p className="mt-0.5 text-theme-sm font-medium text-gray-700 dark:text-gray-200">
+      <p className="text-xs text-gray-400">{label}</p>
+      <p className="mt-0.5 text-xs font-medium text-gray-700 dark:text-gray-200">
         {value || "-"}
       </p>
     </div>
@@ -105,48 +105,28 @@ export default function JobBottomSheet({
           </svg>
         </button>
 
-        <div className="px-5 pb-6 pt-1">
+        <div className="px-4 pb-5 pt-1">
           {/* Header */}
           <div className="flex items-start gap-3 pr-10">
             <span
-              className={`flex size-12 shrink-0 items-center justify-center rounded-xl text-base font-semibold ${getCompanyColor(job.id)}`}
+              className={`flex size-11 shrink-0 items-center justify-center rounded-xl text-sm font-semibold ${getCompanyColor(job.id)}`}
             >
               {getInitials(job.company, job.title)}
             </span>
             <div className="min-w-0 flex-1">
-              <p className={`font-semibold text-base leading-tight ${badge.titleClass}`}>
+              <p className={`text-sm font-semibold leading-tight ${badge.titleClass}`}>
                 {job.title}
               </p>
-              <p className="mt-0.5 text-theme-sm text-gray-500 dark:text-gray-400">
+              <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
                 {job.company || "-"}
               </p>
             </div>
           </div>
 
-          {/* Suspicious alert */}
-          {job.suspiciousFlag && (
-            <div className="mt-3 rounded-xl border border-error-200 bg-error-50 p-3 dark:border-error-500/20 dark:bg-error-500/[0.05]">
-              <p className="flex items-center gap-1.5 text-theme-xs font-semibold text-error-600 dark:text-error-400">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 9v4m0 4h.01M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                Lowongan mencurigakan
-              </p>
-              <p className="mt-1 text-theme-xs leading-5 text-gray-600 dark:text-gray-400">
-                {job.suspiciousReason}
-              </p>
-            </div>
-          )}
-
           {/* Match score bar */}
           <div className="mt-4 flex items-center gap-3">
             <span
-              className={`text-lg font-bold ${
+              className={`text-base font-bold ${
                 job.matchScore >= 80
                   ? "text-success-600"
                   : job.matchScore >= 60
@@ -156,7 +136,7 @@ export default function JobBottomSheet({
             >
               {job.matchScore}%
             </span>
-            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+            <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
               <div
                 className={`h-full rounded-full ${
                   job.matchScore >= 80
@@ -169,7 +149,7 @@ export default function JobBottomSheet({
               />
             </div>
             <span
-              className={`shrink-0 rounded-md px-2.5 py-1 text-theme-sm font-semibold ${
+              className={`shrink-0 rounded-md px-2 py-0.5 text-xs font-semibold ${
                 badge.color === "success"
                   ? "bg-success-50 text-success-700 dark:bg-success-500/10 dark:text-success-400"
                   : badge.color === "warning"
@@ -181,9 +161,29 @@ export default function JobBottomSheet({
             </span>
           </div>
 
-          {/* Detail fields — single column on mobile */}
-          <div className="mt-5 space-y-4">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+          {/* Suspicious alert */}
+          {job.suspiciousFlag && (
+            <div className="mt-3 rounded-xl border border-error-200 bg-error-50 p-3 dark:border-error-500/20 dark:bg-error-500/[0.05]">
+              <p className="flex items-center gap-1.5 text-xs font-semibold text-error-600 dark:text-error-400">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 9v4m0 4h.01M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                Lowongan mencurigakan
+              </p>
+              <p className="mt-1 text-xs leading-5 text-gray-600 dark:text-gray-400">
+                {job.suspiciousReason}
+              </p>
+            </div>
+          )}
+
+          {/* Detail fields */}
+          <div className="mt-4 space-y-3">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-3">
               <DetailItem
                 label="Lokasi"
                 value={job.location !== "Unknown" ? job.location : "Tidak diketahui"}
@@ -196,7 +196,7 @@ export default function JobBottomSheet({
             </div>
 
             {(job.experienceRequired || job.educationRequired) && (
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              <div className="grid grid-cols-2 gap-x-3 gap-y-3">
                 {job.experienceRequired && (
                   <DetailItem label="Pengalaman" value={job.experienceRequired} />
                 )}
@@ -208,15 +208,15 @@ export default function JobBottomSheet({
           </div>
 
           {/* Source link */}
-          <div className="mt-5">
-            <p className="text-theme-xs font-medium uppercase tracking-wide text-gray-400">
+          <div className="mt-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
               Tautan sumber
             </p>
             <a
               href={job.sourceUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-2 flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 text-theme-sm font-medium text-gray-700 transition active:bg-gray-100 dark:border-gray-700 dark:bg-white/[0.03] dark:text-gray-300"
+              className="mt-1.5 flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 text-xs font-medium text-gray-700 transition active:bg-gray-100 dark:border-gray-700 dark:bg-white/[0.03] dark:text-gray-300"
             >
               <span className="min-w-0 flex-1 truncate">{job.sourceUrl}</span>
               <svg
@@ -238,26 +238,26 @@ export default function JobBottomSheet({
           </div>
 
           {/* Agent summary */}
-          <div className="mt-5">
-            <p className="text-theme-xs font-medium uppercase tracking-wide text-gray-400">
+          <div className="mt-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
               Ringkasan agent
             </p>
-            <p className="mt-2 text-theme-sm leading-6 text-gray-600 dark:text-gray-300">
+            <p className="mt-1.5 text-xs leading-5 text-gray-600 dark:text-gray-300">
               {job.reasonMatch}
             </p>
           </div>
 
           {/* Matched skills */}
           {job.matchedSkills.length > 0 && (
-            <div className="mt-5">
-              <p className="text-theme-xs font-medium uppercase tracking-wide text-gray-400">
+            <div className="mt-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
                 Skill cocok <span className="ml-1 text-success-500">●</span>
               </p>
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-1.5">
                 {job.matchedSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-lg bg-success-50 px-3 py-1.5 text-theme-sm font-medium text-success-700 dark:bg-success-500/10 dark:text-success-400"
+                    className="rounded-lg bg-success-50 px-2.5 py-1 text-xs font-medium text-success-700 dark:bg-success-500/10 dark:text-success-400"
                   >
                     {skill}
                   </span>
@@ -269,14 +269,14 @@ export default function JobBottomSheet({
           {/* Missing skills */}
           {job.missingSkills.length > 0 && (
             <div className="mt-3">
-              <p className="text-theme-xs font-medium uppercase tracking-wide text-gray-400">
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
                 Skill kurang <span className="ml-1 text-error-500">●</span>
               </p>
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-1.5">
                 {job.missingSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-lg bg-error-50 px-3 py-1.5 text-theme-sm font-medium text-error-700 dark:bg-error-500/10 dark:text-error-400"
+                    className="rounded-lg bg-error-50 px-2.5 py-1 text-xs font-medium text-error-700 dark:bg-error-500/10 dark:text-error-400"
                   >
                     {skill}
                   </span>
@@ -287,28 +287,28 @@ export default function JobBottomSheet({
 
           {/* Risk/gap note */}
           {job.riskOrGap && (
-            <div className="mt-5 rounded-xl border border-brand-100 bg-brand-25 p-4 dark:border-brand-500/20 dark:bg-brand-500/[0.05]">
+            <div className="mt-4 rounded-xl border border-brand-100 bg-brand-25 p-3 dark:border-brand-500/20 dark:bg-brand-500/[0.05]">
               <div className="flex items-center justify-between">
-                <p className="text-theme-xs font-semibold text-gray-800 dark:text-white/90">
+                <p className="text-xs font-semibold text-gray-800 dark:text-white/90">
                   Catatan AI agent
                 </p>
-                <span className="text-theme-xs font-semibold text-success-600">
+                <span className="text-xs font-semibold text-success-600">
                   {job.matchScore}% match
                 </span>
               </div>
-              <p className="mt-2 text-theme-xs leading-5 text-gray-600 dark:text-gray-400">
+              <p className="mt-1.5 text-xs leading-5 text-gray-600 dark:text-gray-400">
                 {job.riskOrGap}
               </p>
             </div>
           )}
 
           {/* Sticky action buttons */}
-          <div className="mt-6 flex gap-3">
+          <div className="mt-5 flex gap-2">
             <button
               type="button"
               onClick={onShortlist}
               disabled={isMutating}
-              className="flex min-h-12 flex-1 items-center justify-center rounded-xl border-2 border-gray-300 px-4 text-theme-sm font-semibold text-gray-700 transition active:scale-[0.97] active:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-gray-200 dark:active:bg-white/5"
+              className="flex min-h-11 flex-1 items-center justify-center rounded-xl border-2 border-gray-300 px-4 text-sm font-semibold text-gray-700 transition active:scale-[0.97] active:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-gray-200 dark:active:bg-white/5"
             >
               {job.userState === "shortlist" ? "Hapus shortlist" : "Shortlist"}
             </button>
@@ -316,7 +316,7 @@ export default function JobBottomSheet({
               type="button"
               onClick={onApplied}
               disabled={isMutating}
-              className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-gray-900 px-4 text-theme-sm font-semibold text-white transition active:scale-[0.97] active:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:active:bg-gray-100"
+              className="flex min-h-11 flex-1 items-center justify-center rounded-xl bg-gray-900 px-4 text-sm font-semibold text-white transition active:scale-[0.97] active:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:active:bg-gray-100"
             >
               {job.userState === "applied" ? "Batalkan applied" : "Tandai applied"}
             </button>

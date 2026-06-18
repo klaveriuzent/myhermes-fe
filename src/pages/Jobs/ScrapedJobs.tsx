@@ -53,27 +53,27 @@ export default function ScrapedJobs() {
         description="Hasil scraping lowongan kerja oleh AI agent"
       />
 
-      {/* Header */}
-      <div className="mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Hasil scraping lowongan
-          </h1>
-          <p className="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
-            Review, kurasi, dan tindak lanjuti lowongan yang ditemukan oleh agent.
-          </p>
-        </div>
+      {/* Header — responsive typography */}
+      <div className="mb-5 px-0">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          Hasil scraping lowongan
+        </h1>
+        <p className="mt-0.5 text-sm leading-relaxed text-gray-500 dark:text-gray-400 sm:text-base">
+          Review, kurasi, dan tindak lanjuti lowongan yang ditemukan oleh agent.
+        </p>
       </div>
 
-      {/* Stat cards */}
-      <StatCards cards={statCards} />
+      {/* Stat cards — compact mobile */}
+      <div className="mb-5">
+        <StatCards cards={statCards} />
+      </div>
 
-      {/* Tab bar */}
-      <div className="mb-6">
+      {/* Tabs — full width, equal, 44px tall */}
+      <div className="mb-4">
         <div
           role="tablist"
           aria-label="Kategori lowongan"
-          className="flex w-fit gap-1 overflow-x-auto rounded-xl border border-gray-200 bg-gray-50 p-1 shadow-inner dark:border-gray-800 dark:bg-gray-900/60"
+          className="grid w-full grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1 shadow-inner dark:border-gray-800 dark:bg-gray-900/60"
         >
           {tabItems.map((tab) => (
             <button
@@ -82,7 +82,7 @@ export default function ScrapedJobs() {
               role="tab"
               aria-selected={activeTab === tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex h-10 shrink-0 items-center rounded-lg px-4 text-theme-sm font-medium transition active:scale-[0.97] ${
+              className={`flex min-h-11 items-center justify-center rounded-lg px-2 text-xs font-medium transition active:scale-[0.97] sm:text-sm ${
                 activeTab === tab
                   ? "bg-gray-900 text-white shadow-theme-xs ring-1 ring-gray-900 dark:bg-brand-400/15 dark:text-brand-300 dark:ring-brand-400/20"
                   : "text-gray-500 hover:bg-white hover:text-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-200"
@@ -95,7 +95,7 @@ export default function ScrapedJobs() {
       </div>
 
       {/* Sticky filter bar on mobile */}
-      <div className="sticky top-0 z-30 -mx-2 mb-4 bg-gray-50 px-2 pb-2 pt-2 dark:bg-gray-950 lg:static lg:mx-0 lg:bg-transparent lg:p-0">
+      <div className="sticky top-0 z-30 mb-3 bg-gray-50 pb-2 pt-2 dark:bg-gray-950 lg:static lg:bg-transparent lg:p-0">
         <FilterBar
           query={query}
           setQuery={setQuery}

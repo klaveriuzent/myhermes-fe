@@ -35,8 +35,8 @@ export default function FilterBar({
   }, [setIsCategoryOpen]);
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:items-center">
-      {/* Search */}
+    <div className="flex flex-col gap-3 md:flex-row md:items-center">
+      {/* Search — full width */}
       <div className="relative min-w-0 flex-1">
         <svg
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -61,7 +61,7 @@ export default function FilterBar({
       </div>
 
       {/* Category filter */}
-      <div ref={dropdownRef} className="relative">
+      <div ref={dropdownRef} className="relative w-full md:w-auto">
         <svg
           className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 ${
             category === "Semua kategori" ? "text-gray-400" : "text-brand-400"
@@ -84,7 +84,7 @@ export default function FilterBar({
           aria-label="Filter berdasarkan kategori"
           aria-haspopup="listbox"
           aria-expanded={isCategoryOpen}
-          className={`h-11 w-full rounded-xl border bg-white py-2.5 pl-9 pr-9 text-left text-sm font-medium shadow-theme-xs outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:bg-gray-900 sm:w-44 ${
+          className={`h-11 w-full rounded-xl border bg-white py-2.5 pl-9 pr-9 text-left text-sm font-medium shadow-theme-xs outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-50 dark:bg-gray-900 md:w-44 ${
             category === "Semua kategori"
               ? "border-gray-300 text-gray-600 dark:border-gray-700 dark:text-gray-300"
               : "border-brand-200 bg-brand-25 text-gray-800 dark:border-brand-500/30 dark:bg-brand-500/[0.06] dark:text-white/90"
@@ -112,7 +112,7 @@ export default function FilterBar({
         {isCategoryOpen && (
           <div
             role="listbox"
-            className="absolute right-0 z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-theme-lg dark:border-gray-700 dark:bg-gray-900"
+            className="absolute right-0 z-20 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white p-1.5 shadow-theme-lg dark:border-gray-700 dark:bg-gray-900 md:w-56"
           >
             <p className="px-3 pb-2 pt-1.5 text-theme-xs font-medium uppercase tracking-wide text-gray-400">
               Filter kategori
@@ -165,12 +165,12 @@ export default function FilterBar({
         )}
       </div>
 
-      {/* Export */}
+      {/* Export — full width mobile */}
       <button
         type="button"
         onClick={onExport}
         disabled={jobsLength === 0}
-        className="h-11 rounded-xl border border-gray-300 bg-white px-5 text-sm font-medium text-gray-700 shadow-theme-xs transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-white/5"
+        className="h-11 w-full rounded-xl border border-gray-300 bg-white px-5 text-sm font-medium text-gray-700 shadow-theme-xs transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-white/5 md:w-auto md:px-5"
       >
         Export CSV
       </button>
