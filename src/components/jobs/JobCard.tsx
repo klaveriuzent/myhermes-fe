@@ -26,7 +26,7 @@ export default function JobCard({
     <button
       type="button"
       onClick={() => onSelect(job.id)}
-      className={`w-full rounded-2xl border px-4 py-3.5 text-left transition active:scale-[0.98] ${
+      className={`w-full rounded-2xl border px-3.5 py-3 text-left transition active:scale-[0.98] ${
         isSelected
           ? "border-brand-300 bg-brand-25 shadow-theme-sm dark:border-brand-500/40 dark:bg-brand-500/[0.06]"
           : "border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-white/[0.03] dark:hover:border-gray-600"
@@ -35,7 +35,7 @@ export default function JobCard({
       {/* Top row: avatar + title + shortlist star */}
       <div className="flex items-start gap-3">
         <span
-          className={`flex size-10 shrink-0 items-center justify-center rounded-xl text-sm font-semibold ${getCompanyColor(job.id)}`}
+          className={`flex size-11 shrink-0 items-center justify-center rounded-xl text-sm font-semibold ${getCompanyColor(job.id)}`}
         >
           {getInitials(job.company, job.title)}
         </span>
@@ -61,7 +61,7 @@ export default function JobCard({
         </div>
 
         {/* Shortlist star */}
-        <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+        <div className="shrink-0 self-start" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
             onClick={onToggleShortlist}
@@ -94,8 +94,8 @@ export default function JobCard({
         </div>
       </div>
 
-      {/* Meta: source + posted */}
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-400">
+      {/* Meta row: source + posted — compact */}
+      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-theme-xs text-gray-400">
         <span className="inline-flex items-center gap-1">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="shrink-0">
             <path
@@ -111,11 +111,11 @@ export default function JobCard({
         <span>Diambil {job.scrapedAt}</span>
       </div>
 
-      {/* Match score bar + badge */}
-      <div className="mt-3 flex items-center gap-3">
-        <div className="flex flex-1 items-center gap-2">
+      {/* Score row: score | progress bar | match badge — single line */}
+      <div className="mt-2.5 flex items-center gap-2">
+        <div className="flex flex-1 items-center gap-1.5">
           <span
-            className={`text-sm font-bold ${
+            className={`text-sm font-bold leading-none ${
               job.matchScore >= 80
                 ? "text-success-600"
                 : job.matchScore >= 60
@@ -125,7 +125,7 @@ export default function JobCard({
           >
             {job.matchScore}%
           </span>
-          <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
             <div
               className={`h-full rounded-full transition-all ${
                 job.matchScore >= 80
@@ -140,7 +140,7 @@ export default function JobCard({
         </div>
         {badge && (
           <span
-            className={`inline-flex shrink-0 items-center rounded-md px-2 py-0.5 text-xs font-semibold ${
+            className={`inline-flex shrink-0 items-center rounded-md px-1.5 py-0.5 text-theme-xs font-semibold ${
               badge.color === "success"
                 ? "bg-success-50 text-success-700 dark:bg-success-500/10 dark:text-success-400"
                 : badge.color === "warning"
@@ -154,17 +154,17 @@ export default function JobCard({
       </div>
 
       {/* Tags row */}
-      <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-        <span className="rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-400">
+      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+        <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-theme-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-400">
           {job.employmentType}
         </span>
         {job.remoteType && job.remoteType !== "Unknown" && (
-          <span className="rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-400">
+          <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-theme-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-400">
             {job.remoteType}
           </span>
         )}
         {job.suspiciousFlag && (
-          <span className="inline-flex items-center gap-1 rounded-md bg-error-50 px-2 py-0.5 text-xs font-medium text-error-600 dark:bg-error-500/10 dark:text-error-400">
+          <span className="inline-flex items-center gap-1 rounded-md bg-error-50 px-1.5 py-0.5 text-theme-xs font-medium text-error-600 dark:bg-error-500/10 dark:text-error-400">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 9v4m0 4h.01M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"

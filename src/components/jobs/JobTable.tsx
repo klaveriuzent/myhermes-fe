@@ -52,7 +52,7 @@ function PaginationBar({
   compact?: boolean;
 }) {
   const btnBase = compact
-    ? "flex min-h-9 min-w-9 items-center justify-center rounded-lg text-theme-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40"
+    ? "flex min-h-10 min-w-10 items-center justify-center rounded-lg text-theme-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40"
     : "flex min-h-11 min-w-11 items-center justify-center rounded-lg text-theme-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40";
 
   return (
@@ -211,7 +211,7 @@ export default function JobTable({
         )}
 
         {/* Mobile pagination */}
-        <div className="mt-4 border-t border-gray-100 px-1 pb-2 pt-4 dark:border-gray-800">
+        <div className="mt-4 border-t border-gray-100 px-1 pb-3 pt-4 dark:border-gray-800">
           <PaginationBar
             currentPage={currentPage}
             totalPages={totalPages}
