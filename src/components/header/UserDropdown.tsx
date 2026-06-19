@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useTheme } from "../../context/ThemeContext";
 import {
@@ -13,8 +13,10 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [alignRight, setAlignRight] = useState(true);
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
   const displayName = user?.name?.trim() || user?.email || "Mode Lokal";
   const accountStatus = user ? user.email : "Belum login";
 
@@ -30,6 +32,18 @@ export default function UserDropdown() {
       closeDropdown();
       navigate("/login");
     }
+  }
+
+  function handleToggle() {
+    // Resolve alignment before opening
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      // If button center is in left half of viewport → align left
+      // If button center is in right half → align right
+      setAlignRight(rect.left + rect.width / 2 > viewportWidth / 2);
+    }
+    setIsOpen((open) => !open);
   }
 
   useEffect(() => {
@@ -58,10 +72,10 @@ export default function UserDropdown() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <button
         type="button"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={handleToggle}
         className={
           user
             ? "dropdown-toggle inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white py-1 pl-1 pr-2 text-gray-700 shadow-theme-xs dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -107,7 +121,9 @@ export default function UserDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg z-[999999] dark:border-gray-800 dark:bg-gray-dark"
+        className={`absolute mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg z-[999999] dark:border-gray-800 dark:bg-gray-dark ${
+          alignRight ? "right-0 origin-top-right" : "left-0 right-auto origin-top-left"
+        }`}
       >
         <div className="flex items-center justify-between gap-3 rounded-xl bg-gray-50 px-3 py-2 dark:bg-white/[0.03]">
           <div className="min-w-0 flex-1 text-right">
